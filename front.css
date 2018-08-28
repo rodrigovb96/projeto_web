@@ -18,3 +18,13 @@ body
 .redditName{
   height: 18px;
 }
+
+div.subs
+{
+    height: 34px;
+    width: 268px;
+    background-color: red;
+    float: left;
+}
+
+
