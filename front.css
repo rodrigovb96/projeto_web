@@ -1,34 +1,55 @@
-body{margin: 0px;}
+body
+{
+	margin: 0px;
+    background-color: #030303;
+}
 
 header
 {
 	height: 48px;
 	padding: 0 20px;
 	background-color: #1a1a1b;
+	position: fixed;
+	top: 0px;
+	left: 0px;
 }
 
-body
+.header_content
 {
-    background-color: #030303;
+	float: left;
 }
-
-.redditLogo{
-	margin: auto ;
+.redditLogo
+{
   	width:32px;
 	height:32px;
-	padding: 8px 0px 8px 8px;
+	padding: 8px 8px 8px 0px;
 }
-.redditName{
+.redditName
+{
   	height: 18px;
-	margin: auto 8px auto 0px;
+	margin: 15px 8px 15px 0px;
 }
 
-div.subs
+.subs
 {
     height: 34px;
-    width: 268px;
-    background-color: red;
+    width: 172px;
+    background-color: #030303;
     float: left;
+	padding: 0px 56px 0px 40px;
+	margin: 7px 0px;
 }
-
-
+button
+{
+	border: 0px;
+	background-color: inherit;
+	width: inherit;
+	height: inherit;
+	text-align: left;
+	color: #d7dadc;
+	
+}
+.subs:hover
+{
+	border: 1px solid #d7dadc;
+}
