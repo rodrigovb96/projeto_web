@@ -4,7 +4,6 @@ body
 	margin: 0px;
     background-color: #030303;
 }
-
 header
 {
 	width: 100%;
@@ -93,19 +92,45 @@ button
 {
 	height: 18px;
 	width: 18px;
-	margin: 8px 0px;
+	/*margin: 8px 0px;*/
+}
+.label_search
+{
+	margin: 8px 0px 8px 8px;
 }
 .search_box
 {
 	background-color: inherit;
 	height: inherit;
-	width: 90%;
+	width: inherit;
 	border: none;
-	margin: 8px;
 	color: #818384;
+	font-size: 14px;
 }
 .search_form
 {
+	height: inherit;
+	width: inherit;
 	display: inline;
-	border: none;
+}
+.feed_type
+{
+	margin: 0px 8px;
+	height: inherit;
+	width: 100px;
+	background-color: inherit;
+}
+.feed_icons
+{
+	height: 16px;
+	width: 16px;
+	margin: 16px 0px 16px 13px;
+	background-color: inherit;
+	float: left;
+}
+.separador
+{
+	margin: 8px; 
+	height: 32px;
+	border-right: 1px solid #343536;
 }
