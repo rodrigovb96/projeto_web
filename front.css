@@ -14,6 +14,7 @@ header
 	position: fixed;
 	top: 0px;
 	left: 0px;
+	border-bottom: 1px solid #343536; 
 }
 
 .header_content
@@ -40,12 +41,12 @@ header
     float: left;
 	padding: 0px 56px 0px 40px;
 	border: 1px solid #1a1a1b;
+	border-radius: 5px;
 	margin: 7px 8px 7px 0px;
 }
 .subs:hover
 {
-	border-color: #d7dadc;
-	border-radius: 5px;
+	border-color: #343536;
 }
 .sub_img
 {
@@ -88,12 +89,12 @@ button
 .search:hover
 {
 	border-color: #d7dadc;
+	background-color: #1a1a1b;
 }
 .search_icon
 {
 	height: 18px;
 	width: 18px;
-	/*margin: 8px 0px;*/
 }
 .label_search
 {
@@ -135,7 +136,53 @@ button
 	height: 32px;
 	border-right: 1px solid #343536;
 }
-
+.user_menu
+{
+	height: 34px;
+	width: 215px;
+	margin: 7px 0px;
+	border: 1px solid #1a1a1b;
+	background-color: inherit;
+	border-radius: 5px;
+	position: relative;
+}
+.user_menu:hover
+{
+	border: 1px solid #343536;
+}
+.profile_img
+{
+	float: left;
+	margin: 5px;
+	height: 24px;
+	border-radius: 2px;
+}
+.user_data
+{
+	float: left;
+	width: auto;
+	height: inherit;
+	color: #d7dadc;
+	background-color: inherit;
+	font-size: 13px;
+	font-weight: 500;
+	margin: 0px 5px;
+}
+.username::before
+{
+	content: "usuario123";
+}
+.karma_flower::after
+{
+	content: "123"
+}
+.user_arrow
+{
+	height: 20px;
+	width: 20px;
+	float: right;
+	margin: 7px;
+}
 .divao
 {
     height: 100%;
