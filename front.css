@@ -298,8 +298,10 @@ header
 .upvote_downvote
 {
     align-items: center;
-    display: flex;
     fill: inherit;
+    display: inline-block;
+    line-height: 24px;
+    font-size:16px;
 	font-family: "redesignFont";
 	color: #818384;
 
@@ -388,23 +390,64 @@ header
 		width: 40%;
 	}
 }
-.upvote
+
+.counter_post
+{
+    color: #d7dad5;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 700;
+    vertical-align: baseline;
+}
+
+.vote_region
 {
 	color: #818384;
+    font-size: 16px;
+    line-height: 24px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    -moz-box-align: center;
+    overflow: hidden;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+.icon
+{
     height: 24px;
     width: 24px;
-    overflow: hidden;
-    display: inline-block;
+    font-size:16px;
     line-height: 24px;
-    font-size: 16px;
+    display: inline-block;
+    overflow: hidden;
+    font: inherit;
+    vertical-align: baseline;
 }
+
 .icon-upvote
 {
 	color: inherit;
+    vertical-align: baseline;
+    font:inherit;
+    font-family: redesignFont;
+}
+
+.icon-downvote
+{
+	color: inherit;
+    vertical-align: baseline;
+    font:inherit;
     font-family: redesignFont;
 }
 
 .icon-upvote::before
 {
     content: "\F131";
+}
+
+.icon-downvote::before
+{
+    content: "\F109";
 }
