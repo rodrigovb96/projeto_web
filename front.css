@@ -7,19 +7,21 @@ body
 header
 {
 	z-index: 1;
-	width: 100%;
+	width: 98.5%;
 	height: 48px;
-	padding: 0 20px;
+	padding: 0 1.5%;
 	background-color: #1a1a1b;
 	position: fixed;
-	top: 0px;
-	left: 0px;
 	border-bottom: 1px solid #343536; 
 }
 
 .header_content
 {
 	float: left;
+}
+.mini_logo
+{
+	display:none;
 }
 .redditLogo
 {
@@ -36,13 +38,15 @@ header
 .subs
 {
     height: 34px;
-    width: 172px;
+    width: 5%;
+    /*width: 172px;*/
     background-color: inherit;
     float: left;
 	padding: 0px 56px 0px 40px;
 	border: 1px solid #1a1a1b;
 	border-radius: 5px;
 	margin: 7px 8px 7px 0px;
+	position: relative;
 }
 .subs:hover
 {
@@ -53,18 +57,18 @@ header
 	height: 22px;
 	width: 22px;
 	position: absolute;
-	top: 13px;
-	left: 145px;
+	top: 6px;
+	left: 15px;
 }
 .sub_arrow
 {
 	height: 20px;
 	width: 20px;
 	position: absolute;
-	top: 13px;
-	left: 360px;
+	top: 7px;
+	right: 15px;
 }
-button
+.subs_button
 {
 	border: 0px;
 	background-color: inherit;
@@ -80,7 +84,7 @@ button
 {
 	float:left;
 	height: 34px;
-	width: 35%;
+	width: 40%;
 	background-color: #272729;
 	margin: 7px 0px;
 	border: 1px solid #343536;
@@ -115,13 +119,25 @@ button
 	width: inherit;
 	display: inline;
 }
+.icons_container
+{
+	margin-left: 3%;
+}
 .feed_type
 {
-	margin: 0px 8px;
+	margin: 0px auto;
 	height: inherit;
-	width: 100px;
+	min-width: 100px;
 	background-color: inherit;
 }
+/*.feed_icons
+{
+	height: 16px;
+	width: 16px;
+	margin: 16px 0px 16px 13px;
+	background-color: inherit;
+	float: left;
+}*/
 .feed_icons
 {
 	height: 16px;
@@ -138,9 +154,12 @@ button
 }
 .user_menu
 {
+	float:right;
 	height: 34px;
-	width: 215px;
-	margin: 7px 0px;
+	/*width: 215px;*/
+	/*width: 15%;*/
+	/*min-width: 150px;*/
+	margin: 7px auto;
 	border: 1px solid #1a1a1b;
 	background-color: inherit;
 	border-radius: 5px;
@@ -159,6 +178,7 @@ button
 }
 .user_data
 {
+	display: none;
 	float: left;
 	width: auto;
 	height: inherit;
@@ -183,6 +203,25 @@ button
 	float: right;
 	margin: 7px;
 }
+
+.top_bar
+{
+	height: 40px;
+	width: 100%;
+	position: relative;
+	top: 49px;
+	margin: 0px auto;
+	background-color: white;
+}
+.view_type_sort
+{
+	height: inherit;
+	width: 60%;
+	margin: 0px auto;
+	background-color: purple;
+}
+
+
 .divao
 {
     height: 100%;
@@ -229,4 +268,79 @@ button
     width: inherit;
     background-color: green;
 }
+@media screen and (min-width: 1200px)
+{
+	.user_data
+	{
+		display:block;
+	}
+}
+@media screen and (max-width: 980px)
+{
+	.mini_logo
+	{
+		display:block;
+	}
+	.logo
+	{
+		display: none;
+	}
+	.subs
+	{
+		padding: 8px;
+		width: 22px;
+		height: 22px;
+	}
+	.sub_img
+	{
+		top: 8px;
+		left: 8px;
+	}
+	.subs_button
+	{
+		display:none;
+	}
+	.sub_arrow
+	{
+		display:none;
+	}
+	.search {
+		width: 70%;
+	}
+	.icons_container
+	{
+		display: none;
+	}
+	.user_data
+	{
+		display:none;
+	}
+	
+}
+@media screen and (max-width: 560px)
+{
+	.search
+	{
+		width: 50%;
+		min-width: 195px;
+	}
+}
+@media screen and (max-width: 364px)
+{
+	.subs
+	{
+		display: none;
+	}
+}
+@media screen and (min-width: 1351px)
+{
+	.subs
+	{
+		width: 10%;
+	}
 
+	.search
+	{
+		width: 40%;
+	}
+}
