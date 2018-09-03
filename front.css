@@ -1,3 +1,8 @@
+@font-face
+{
+	font-family: "redesignFont";
+	src: url("https://www.redditstatic.com/desktop2x/fonts/redesignIcon/redesignFont.63980c97ed902d1776667531f8542e48.woff");
+}
 body
 {
 	font-family: 'IBM Plex Sans', sans-serif;	
@@ -261,7 +266,7 @@ header
     height: 500px;
     width: 312px;
     margin-top: 15px;
-    margin-left: 24px;
+    margin-left: 20px;
     background-color: #1a1a1b;
     float: left;
 	display: inline-block;
@@ -295,7 +300,8 @@ header
     align-items: center;
     display: flex;
     fill: inherit;
-
+	font-family: "redesignFont";
+	color: #818384;
 
 }
 @media screen and (min-width: 1200px)
@@ -384,6 +390,7 @@ header
 }
 .upvote
 {
+	color: #818384;
     height: 24px;
     width: 24px;
     overflow: hidden;
@@ -393,10 +400,11 @@ header
 }
 .icon-upvote
 {
+	color: inherit;
     font-family: redesignFont;
 }
 
-.icon-upvote::after
+.icon-upvote::before
 {
     content: "\F131";
 }
