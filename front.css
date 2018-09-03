@@ -206,31 +206,35 @@ header
 
 .top_bar
 {
+	clear: both;
 	height: 40px;
 	width: 100%;
-	position: relative;
-	top: 49px;
-	margin: 0px auto;
 	background-color: white;
 }
 .view_type_sort
 {
 	height: inherit;
-	width: 60%;
+	width: 80%;
 	margin: 0px auto;
 	background-color: purple;
 }
-
+.main_content
+{
+	margin: 0px auto;
+	max-width: 998px;
+	overflow: auto;
+}
 
 .divao
 {
     height: 100%;
     width: 100%;
 
-    display: flex;
+/*    display: flex;*/
 
     position: relative;
-
+	top: 49px;
+/*
     padding-top: 20px;
     padding-bottom: 20px;
 
@@ -239,28 +243,28 @@ header
 
     margin-left: auto;
     margin-right: auto;
-
+*/
 }
 
 .post_list
 {
     width: 648px;
-    margin-top: 5%;
-    margin-left: 25%;
+    margin-top: 15px;
+   /* margin-left: 25%;*/
     background-color: #030303;
     float: left;
-
-
+	display: inline-block;
 }
 
 .side_bar
 {
     height: 500px;
     width: 312px;
-    margin-top: 5%;
+    margin-top: 15px;
     margin-left: 24px;
     background-color: #1a1a1b;
     float: left;
+	display: inline-block;
 }
 
 .post
@@ -338,6 +342,14 @@ header
 		display: none;
 	}
 	.user_data
+	{
+		display:none;
+	}
+	.main_content
+	{
+		max-width: 648px;
+	}
+	.side_bar
 	{
 		display:none;
 	}
