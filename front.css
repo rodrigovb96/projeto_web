@@ -344,14 +344,22 @@ header
 .post
 {
     position: relative;
-    border-radius: 4px;
+    border-radius: 3px;
     border: 1px solid #343536;
     margin-bottom: 10px;
-    height: 500px;
+    max-height: 500px;
     width: inherit;
     background-color: #1a1a1b;
+	overflow: auto;
 }
-
+.post:hover
+{
+	border-color: #818384;
+}
+.post>*
+{
+	width: inherit;
+}
 .post_details
 {
     width: 40px;
@@ -361,9 +369,145 @@ header
     padding-bottom: 8px;
     padding-right: 4px;
     background-color: #151516;
-    
+   	float: left; 
+	color: #d7dadc;
 }
-
+.inner_post
+{
+	max-width:570px;
+	/*
+	width: 599px;
+	maxidth: inherit;*/
+	max-height: 100%;
+	background-color: inherit;
+	float: left;
+	font-weight: 700;
+	font-family: "IBM Plex Sans",sans-serif;
+	color: #d7dadc;
+}
+.inner_post>*
+{
+	width:100%;
+}
+.post_header
+{
+	width: 100%;
+	height: 80px;
+	background-color: inherit;
+	float: inherit;
+	font: inherit;
+}
+.post_info
+{
+	background-color:inherit;
+	width: inherit;
+	height: 30px;
+	float:inherit;
+}
+.img_sub_post>*
+{
+	width: 20px;
+	float: inherit;
+}
+.post_info>*
+{
+	margin: 5px;
+	float: inherit;
+}
+.sub_name
+{
+	font-size: 12px;
+}
+.post_time
+{
+	font-size: 10px;
+	color: #818384;
+	margin: 4px 0px;
+	font-weight: 400;
+}
+.post_name
+{
+	background-color: inherit;
+	padding-left: 5px;
+}
+.post_content
+{
+	float:left;
+	max-width: inherit;
+	width: inherit;
+	max-height: 392px;
+}
+.post_content>*
+{
+	margin: 0px;
+	padding: 0px;
+	max-width: inherit;
+	width: inherit;
+}
+.comments_and_stuff
+{
+	width: 599px;
+	height: 28px;
+	background-color:inherit;
+	float: left;
+}
+.cbar_opt
+{
+	height: 20px;
+	padding: 4px;
+	margin: 0px 4px;
+	background-color: inherit;
+	float: left;
+	font-family: redesignFont;
+	color: #818384;
+}
+.cbar_opt>*>*
+{
+	font-size: 12px;
+	float: left;
+	font-weight: 700;
+	font-family: "IBM Plex Sans",sans-serif;
+}
+.c_icon
+{
+	font: inherit;
+	line-height: 16px;
+	margin-right: 2px;
+}
+.c_icon::before
+{
+	content: "\F106";
+}
+.s_icon
+{
+	font: inherit;
+	line-height: 16px;
+	margin-right: 2px;
+}
+.s_icon::before
+{
+	content: "\F12A";
+}
+.save_icon
+{
+	font: inherit;
+	line-height: 16px;
+	margin-right: 2px;
+}
+.save_icon::before
+{
+	content: "\F129";
+}
+.m_icon
+{
+	font: inherit;
+	line-height: 16px;
+	margin-right: 2px;
+}
+.m_icon::before
+{
+	content: "\F11D";
+}
 .upvote_downvote
 {
     align-items: center;
@@ -485,6 +629,8 @@ header
 
 .icon
 {
+	margin: 0px 8px;
+	display: block;
     height: 24px;
     width: 24px;
     font-size:16px;
@@ -497,6 +643,7 @@ header
 
 .icon-upvote
 {
+	margin: 4px;
 	color: inherit;
     vertical-align: baseline;
     font:inherit;
@@ -505,6 +652,7 @@ header
 
 .icon-downvote
 {
+	margin: 4px;
 	color: inherit;
     vertical-align: baseline;
     font:inherit;
