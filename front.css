@@ -214,14 +214,83 @@ header
 	clear: both;
 	height: 40px;
 	width: 100%;
-	background-color: white;
+	background-color: #1a1a1b;
 }
 .view_type_sort
 {
 	height: inherit;
 	width: 80%;
 	margin: 0px auto;
-	background-color: purple;
+	background-color: inherit;
+	font-size: 10px;
+	font-weight: 700;
+	color: #778384;	
+}
+.v
+{
+	float:left;
+}
+
+.view_type
+{
+	float: left;
+	line-height: 20px;
+	padding: 10px 0px;
+	color: inherit;	
+	overflow: auto;
+}
+.view_icons
+{
+	float:left;
+	margin-left: 4px;
+}
+.view_icon
+{
+	float: left;
+	width: 20px;
+	height: 20px;
+	margin-left: 4px;
+	background-color: inherit;
+}
+.separador_view_sort
+{
+	float: left;
+	margin: 10px; 
+	height: 20px;
+	border-right: 1px solid #343536;
+}
+.sort_select
+{
+	float: left;
+	line-height: 20px;
+	padding: 10px 0px;
+	font-size:inherit;
+	font-weight: inherit;
+	color: inherit;
+}
+.sort_selector
+{
+	float:left;
+	color: #d7dadc;
+
+}
+.sort_icon
+{
+	float:left;
+	width: 16px;
+	height: 16px;
+	margin: 0px 8px;
+}
+.b
+{
+	font-size: 14px;
+	line-height: 20px;
+}
+.sort_arrow
+{
+	float: left;
+	width: 20px;
+	height: 20px;
 }
 .main_content
 {
