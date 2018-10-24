@@ -102,8 +102,10 @@ header
 }
 .search_icon
 {
+	margin: 8px;
 	height: 18px;
 	width: 18px;
+	float: left;
 }
 .label_search
 {
@@ -117,6 +119,7 @@ header
 	border: none;
 	color: #818384;
 	font-size: 14px;
+	float:left;
 }
 .search_form
 {
@@ -200,6 +203,18 @@ header
 .karma_flower::after
 {
 	content: "123"
+}
+.login_button
+{
+	color:white;
+	font-weight: 700;
+	text-decoration: none;
+	background-color: #ff4500;
+	display: block;
+	margin: 6px 30px;
+	width: 70px;
+	text-align: center;
+	border-radius: 2px;
 }
 .user_arrow
 {
