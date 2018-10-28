@@ -39,7 +39,6 @@ header
   	height: 18px;
 	margin: 15px 8px 15px 0px;
 }
-
 .subs
 {
     height: 34px;
@@ -138,14 +137,6 @@ header
 	min-width: 100px;
 	background-color: inherit;
 }
-/*.feed_icons
-{
-	height: 16px;
-	width: 16px;
-	margin: 16px 0px 16px 13px;
-	background-color: inherit;
-	float: left;
-}*/
 .feed_icons
 {
 	height: 16px;
@@ -164,9 +155,6 @@ header
 {
 	float:right;
 	height: 34px;
-	/*width: 215px;*/
-	/*width: 15%;*/
-	/*min-width: 150px;*/
 	margin: 7px auto;
 	border: 1px solid #1a1a1b;
 	background-color: inherit;
@@ -633,10 +621,9 @@ header
     border: 1px solid #343536;
     margin-bottom: 10px;
     max-height: 500px;
-    width: inherit;
     background-color: #1a1a1b;
 	overflow: auto;
-	width: 100%;
+	width: 99%;
 }
 .post:hover
 {
@@ -975,4 +962,47 @@ header
 .icon-downvote::before
 {
     content: "\F109";
+}
+.banner
+{
+	width: 60%;
+	margin: 50px auto;
+}
+.login_Logo
+{
+	height:30%;
+	width: 30%;
+	margin-left: 10%;
+}
+
+.login_Name
+{
+	height:70%;
+	width: 30%;
+	margin: 70px 0px;
+}
+.form_container
+{
+	overflow: auto;
+	width:70%;
+	margin: 10px auto;
+}
+.form_container>*>*
+{
+	float: left;
+}
+.form_container>*>input
+{
+	border: 1px solid #818384;
+	border-radius: 2px;
+	margin: 0px 5px;
+}
+.form_label
+{
+	color: #818384;
+}
+.login
+{
+	margin: 5px;
+	border: 0px;
 }
