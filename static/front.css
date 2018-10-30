@@ -120,6 +120,15 @@ header
 	font-size: 14px;
 	float:left;
 }
+.input_box
+{
+	background-color: inherit;
+	height: inherit;
+	width: inherit;
+	border: none;
+	color: #818384;
+	font-size: 14px;
+}
 .search_form
 {
 	height: inherit;
@@ -201,6 +210,18 @@ header
 	display: block;
 	margin: 6px 30px;
 	width: 70px;
+	text-align: center;
+	border-radius: 2px;
+}
+.sing_up_button
+{
+	color:white;
+	font-weight: 700;
+	text-decoration: none;
+	background-color: #ff4500;
+	display: block;
+	margin: 6px 30px;
+	width: 80px;
 	text-align: center;
 	border-radius: 2px;
 }
@@ -974,17 +995,41 @@ header
 	width: 30%;
 	margin: 70px 0px;
 }
-.form_container
+.form_container_login
 {
 	overflow: auto;
 	width:70%;
 	margin: 10px auto;
 }
-.form_container>*>*
+.form_container_login>*>*
 {
 	float: left;
 }
-.form_container>*>input
+.form_container_login>*>input
+{
+	border: 1px solid #818384;
+	border-radius: 2px;
+	margin: 0px 5px;
+}
+.form_container_cadastro
+{
+	overflow: auto;
+	width:70%;
+	margin: 10px auto;
+    display: block;
+}
+.form_container_cadastro>*>*
+{
+	float: left;
+}
+.block_label_input label
+{
+    overflow: auto;
+    display: inline-block;
+    width: 140px;
+    text-align: right;
+}
+.form_container_cadastro>*>*>input
 {
 	border: 1px solid #818384;
 	border-radius: 2px;
