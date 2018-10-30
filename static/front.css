@@ -1044,3 +1044,7 @@ header
 	margin: 5px;
 	border: 0px;
 }
+.spec
+{
+	display: block;
+}
