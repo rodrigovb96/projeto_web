@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" href="./front.css" type="text/css" />
+		<title>Sing up - reddit: the front page of internet</title>
+	</head>
+	<body>
+		<div class="main_content">
+			<div class="post">
+				<div class="banner">
+					<img class="login_Logo" src="./resources/images/reddit_logo.svg" alt="logo"/>
+					<img class="login_Name" src="./resources/images/reddit_name.svg" alt="name"/>
+				</div>
+				<div class="form_container_cadastro">
+					<form action="./auth" method="post">
+                        
+                        <div class= "block_label_input">
+                            <label class="form_label" for="username">Username</label>
+                            <input type="text" name="username" class="input_box user_field" value="" />
+                        </div>
+                        <div class="block_label_input">
+                            <label class="form_label" for="email">Email</label>
+                            <input type="email" name="password" class="input_box pass_field" value="" />
+                        </div>
+                        
+                        <div class="block_label_input">
+                            <label class="form_label" for="password">Password</label>
+                            <input type="password" name="password" class="input_box" value="" />
+                        </div>
+
+                        <button class="sing_up_button login" type="submit">Cadastrar</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
