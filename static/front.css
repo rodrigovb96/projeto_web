@@ -1048,3 +1048,22 @@ header
 {
 	display: block;
 }
+.aviso
+{
+	margin: 5px auto;
+	height: 30px;
+	width: 50%;
+	text-align: center;
+}
+.aviso>span
+{
+	display: inline-block;
+	margin: 5px auto;
+}
+.erro
+{
+	background-color: #a82d2d;
+	color: #d7dadc;
+	border: 2px solid red;
+	border-radius: 3px;
+}
