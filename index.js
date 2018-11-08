@@ -21,6 +21,10 @@ app.get('/login',(req,res) => {
 	res.render('login');
 });
 
+app.get('/create_post',(req,res) => {
+	res.render('create_post');
+});
+
 app.get('/cadastro',(req,res) => {
 	renderCadastro(res);
 });
