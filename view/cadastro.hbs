@@ -32,11 +32,14 @@
                         <button class="sing_up_button login" type="submit">Cadastrar</button>
 					</form>
 				</div>
-				{{#unless sucesso}}
+				{{#if sucesso}} <div class="aviso sucesso">
+						<span>{{mensagem}}</span>
+					</div>
+				{{else if falha}}
 					<div class="aviso erro">
 						<span>{{mensagem}}</span>
 					</div>
-				{{/unless}}
+				{{/if}}
 			</div>
 		</div>
 	</body>

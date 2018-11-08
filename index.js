@@ -33,20 +33,40 @@ app.post('/register',(req,res) => {
 	console.log(`Username: ${username} email: ${email} senha: ${password}`);
 
 	if(username && checkEmail(email) && password){
-		userDAO.find().then((users) => {
-			console.log(users);
+		userDAO.find().then((found) => {
+			if(found.length === 0) {
+				let user = new userDAO({username:username,email:email,password:password});
+				user.save().then((response) => {
+					if(response.acknowledged) {
+						let msg = 'Cadastrado com sucesso!';
+						renderCadastro(res,situacao=0,mensagem = msg);
+					}
+				}).catch((err) => {console.log(err)});
+			}
+			else {
+				console.log(found);
+				let msg = 'Usuário já cadastrado'
+				renderCadastro(res,situacao=1,mensagem = msg);
+			}
 		});
-		res.write('SUCESSO');
-		res.end();
 	}
-	else{
-		let msg = 'Erro na inserção dos Dados.'
-		renderCadastro(res,sucesso=false,mensagem=msg);
+	else {
+		let msg = 'Erro na inserção dos dados.'
+		renderCadastro(res,situacao=1,mensagem = msg);
 	}
 });
 
-function renderCadastro(res,sucesso=true, mensagem = ''){
-	res.render('cadastro',{sucesso:sucesso,mensagem:mensagem});
+function renderCadastro(res,situacao=-1, mensagem = ''){
+	let options = {};
+
+	if(situacao != -1 && situacao  === 0) {
+		options = {sucesso:true, mensagem:mensagem};
+	}
+	else if(situacao != -1 && situacao === 1) {
+		options = {falha:true, mensagem:mensagem}
+	}
+
+	res.render('cadastro',options);
 }
 
 function checkEmail(email){
