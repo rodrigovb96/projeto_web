@@ -2,19 +2,39 @@ var express = require('express'),
 	http = require('http'),
 	path = require('path'),
 	userDAO = require('./model/user'),
-	app = express();
+	app = express(),
+	session = require('express-session'),
+	postDAO = require('./model/posts');
 
 app.set('views',path.join(__dirname,'view'));
 app.set('view engine','hbs');
 app.use(express.static(path.join(__dirname,'static')));
 app.use(express.static(path.join(__dirname,'static/images')));
+app.use(session({
+	secret: 'secrets',
+	resave: false,
+	saveUnitialized: true,
+	cookie: {secure: false}
+}));
 
 app.use(express.urlencoded({extendend: false}));
 
 app.get('/',(req,res) => {
-	let logged = false;
-	let postlist = [{username:'teste',post_title:'post title',post_source:'lupa.svg'}];
-	res.render('index',{logged_in:logged,post_list:postlist});
+	let q = req.query.q ? req.query.q : {};
+	postDAO.find(query = q).then((found) => {
+		let postlist = found.length > 0 ? found : [{title:'Nenhum Post', content:'Não tem nenhum post cadastrado, foi mal :/'}];
+		let session_user = (req.session && req.session.login) ? req.session.login : false; 
+		if (session_user) { 
+			userDAO.find(query={username:session_user}, limit=1).then((found) => {
+				user_found = found[0];
+				res.render('index',{user:user_found,post_list:postlist});
+			});
+		}
+		else {
+			res.render('index',{post_list:postlist});
+		}
+		
+	});
 });
 
 app.get('/login',(req,res) => {
@@ -22,11 +42,37 @@ app.get('/login',(req,res) => {
 });
 
 app.get('/create_post',(req,res) => {
-	res.render('create_post');
+	if(req.session && req.session.login) {
+		res.render('create_post');
+	}
+	else {
+		res.redirect('/login');
+	}
 });
 
 app.get('/cadastro',(req,res) => {
 	renderCadastro(res);
+});
+
+app.post('/postar',(req,res) => {
+	let titulo = req.body.post_titulo;
+	let content = req.body.post_content;
+	let user = req.session && req.session.login ? req.session.login : false;
+
+	if(user){
+		if(titulo && content) {
+			let post = new postDAO({title:titulo,content:content,username:user});
+			post.save();
+			res.redirect('/');
+		}
+		else {
+			let msg = 'Preencha todos os campos!';
+			res.render('create_post',{falha:msg});
+		}
+	}
+	else {
+		res.redirect('/login');
+	}
 });
 
 app.post('/register',(req,res) => {
@@ -37,7 +83,7 @@ app.post('/register',(req,res) => {
 	console.log(`Username: ${username} email: ${email} senha: ${password}`);
 
 	if(username && checkEmail(email) && password){
-		userDAO.find().then((found) => {
+		userDAO.find(limit=1).then((found) => {
 			if(found.length === 0) {
 				let user = new userDAO({username:username,email:email,password:password});
 				user.save().then((response) => {
@@ -48,7 +94,6 @@ app.post('/register',(req,res) => {
 				}).catch((err) => {console.log(err)});
 			}
 			else {
-				console.log(found);
 				let msg = 'Usuário já cadastrado'
 				renderCadastro(res,situacao=1,mensagem = msg);
 			}
@@ -59,6 +104,39 @@ app.post('/register',(req,res) => {
 		renderCadastro(res,situacao=1,mensagem = msg);
 	}
 });
+
+app.post('/auth',(req,res) => {
+	let username = req.body.username;	
+	let password = req.body.password;	
+
+	if(username && password){
+		userDAO.find(query={username:username}, limit=1).then((found) => {
+			if(found.length > 0) {
+				if(found[0].password === password) {
+					req.session.login = username;
+					res.redirect('/');
+				}
+				else {
+					let msg = 'Senha Errada!'
+					renderLogin(res, mensagem = msg);
+				}
+			}
+			else {
+				let msg = 'Usuário não cadastrado!'
+				renderLogin(res, mensagem = msg);
+			}
+		});
+	}
+	else {
+		let msg = 'Erro na inserção dos dados.'
+		renderLogin(res, mensagem = msg);
+	}
+
+});
+
+function renderLogin(res, mensagem = ''){
+	res.render('login',{falha:mensagem});
+}
 
 function renderCadastro(res,situacao=-1, mensagem = ''){
 	let options = {};

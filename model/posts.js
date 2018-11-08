@@ -7,7 +7,7 @@ module.exports = class Posts extends MongoDocument {
 		this._id = data._id;
 		this.title = data.title;
 		this.content = data.content;
-		this.image_path = data.image_path;
+		this.username = data.username;
 		this.collection = 'posts';
 	}
 

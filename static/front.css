@@ -193,10 +193,6 @@ header
 	font-weight: 500;
 	margin: 0px 5px;
 }
-.username::before
-{
-	content: "usuario123";
-}
 .karma_flower::after
 {
 	content: "123"
@@ -335,7 +331,8 @@ header
 
 .post_list
 {
-    max-width: 648px;
+    /*max-width: 648px;*/
+	width: 648px;
     margin-top: 15px;
     background-color: #030303;
     float: left;

@@ -25,19 +25,19 @@
                             <input type="text" name="post_content" class="input_box" value="" />
                         </div>
 
-                        <div class="block_label_input">
+              <!--          <div class="block_label_input">
                             <label class="form_label" for="">Imagem</label>
                             <input type="file" name="post_image" class="input_box pass_field" accept="image/*" />
                         </div>
-
+			  -->
                         <button class="sing_up_button login" type="submit">Postar</button>
 					</form>
 				</div>
-				{{#unless sucesso}}
+				{{#if falha}}
 					<div class="aviso erro">
-						<span>{{mensagem}}</span>
+						<span>{{falha}}</span>
 					</div>
-				{{/unless}}
+				{{/if}}
 			</div>
 		</div>
 	</body>

@@ -21,6 +21,11 @@
 						<button class="login_button login" type="submit">Login</button>
 					</form>
 				</div>
+				{{#if falha}}
+					<div class="aviso erro">
+						<span>{{falha}}</span>
+					</div>
+				{{/if}}
 			</div>
 		</div>
 	</body>
