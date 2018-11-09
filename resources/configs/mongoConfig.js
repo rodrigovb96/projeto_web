@@ -1,5 +1,6 @@
 let uri = () => {
-	let key = process.env.MONGO_KEY;
+	let key = process.env.MONGO_KEY || 'mongodb://localhost:27017/redditdb';
+
 	console.log(key);
 	return key
 };
