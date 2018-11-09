@@ -3,27 +3,22 @@ var express = require('express'),
 	path = require('path'),
 	userDAO = require('./model/user'),
 	app = express(),
-	session = require('express-session'),
+	cookieParser = require('cookie-parser'),
 	postDAO = require('./model/posts');
 
 app.set('views',path.join(__dirname,'view'));
 app.set('view engine','hbs');
 app.use(express.static(path.join(__dirname,'static')));
 app.use(express.static(path.join(__dirname,'static/images')));
-app.use(session({
-	secret: 'secrets',
-	resave: false,
-	saveUnitialized: true,
-	cookie: {secure: false}
-}));
+app.use(cookieParser());
 
 app.use(express.urlencoded({extendend: false}));
 
 app.get('/',(req,res) => {
-	let q = req.query.q ? req.query.q : {};
+	let q = req.query.q ? {title:req.query.q} : {};
 	postDAO.find(query = q).then((found) => {
 		let postlist = found.length > 0 ? found : [{title:'Nenhum Post', content:'Não tem nenhum post cadastrado, foi mal :/'}];
-		let session_user = (req.session && req.session.login) ? req.session.login : false; 
+		let session_user = (req.cookies && req.cookies.login) ? req.cookies.login : false; 
 		if (session_user) { 
 			userDAO.find(query={username:session_user}, limit=1).then((found) => {
 				user_found = found[0];
@@ -41,8 +36,12 @@ app.get('/login',(req,res) => {
 	res.render('login');
 });
 
+app.get('/buscar',(req,res) => {
+	res.redirect(`/?q=${req.query.q}`);
+});
+
 app.get('/create_post',(req,res) => {
-	if(req.session && req.session.login) {
+	if(req.cookies && req.cookies.login) {
 		res.render('create_post');
 	}
 	else {
@@ -57,13 +56,14 @@ app.get('/cadastro',(req,res) => {
 app.post('/postar',(req,res) => {
 	let titulo = req.body.post_titulo;
 	let content = req.body.post_content;
-	let user = req.session && req.session.login ? req.session.login : false;
+	let user = req.cookies && req.cookies.login ? req.cookies.login : false;
 
 	if(user){
 		if(titulo && content) {
 			let post = new postDAO({title:titulo,content:content,username:user});
-			post.save();
-			res.redirect('/');
+			post.save().then((response) => {
+				res.redirect('/');
+			});
 		}
 		else {
 			let msg = 'Preencha todos os campos!';
@@ -83,25 +83,24 @@ app.post('/register',(req,res) => {
 	console.log(`Username: ${username} email: ${email} senha: ${password}`);
 
 	if(username && checkEmail(email) && password){
-		userDAO.find(limit=1).then((found) => {
+		userDAO.find(query={username:username}, limit=1).then((found) => {
 			if(found.length === 0) {
 				let user = new userDAO({username:username,email:email,password:password});
 				user.save().then((response) => {
-					if(response.acknowledged) {
-						let msg = 'Cadastrado com sucesso!';
-						renderCadastro(res,situacao=0,mensagem = msg);
-					}
+					let msg = 'Cadastrado com sucesso!';
+					console.log(msg);
+					renderCadastro(res,situacao={sucesso:true,mensagem:msg});
 				}).catch((err) => {console.log(err)});
 			}
 			else {
 				let msg = 'Usuário já cadastrado'
-				renderCadastro(res,situacao=1,mensagem = msg);
+				renderCadastro(res,situacao={falha:true, mensagem:msg});
 			}
 		});
 	}
 	else {
 		let msg = 'Erro na inserção dos dados.'
-		renderCadastro(res,situacao=1,mensagem = msg);
+		renderCadastro(res,situacao={falha:true, mensagem:msg});
 	}
 });
 
@@ -113,7 +112,8 @@ app.post('/auth',(req,res) => {
 		userDAO.find(query={username:username}, limit=1).then((found) => {
 			if(found.length > 0) {
 				if(found[0].password === password) {
-					req.session.login = username;
+					//req.session.login = username;
+					res.cookie('login',username);
 					res.redirect('/');
 				}
 				else {
@@ -138,17 +138,8 @@ function renderLogin(res, mensagem = ''){
 	res.render('login',{falha:mensagem});
 }
 
-function renderCadastro(res,situacao=-1, mensagem = ''){
-	let options = {};
-
-	if(situacao != -1 && situacao  === 0) {
-		options = {sucesso:true, mensagem:mensagem};
-	}
-	else if(situacao != -1 && situacao === 1) {
-		options = {falha:true, mensagem:mensagem}
-	}
-
-	res.render('cadastro',options);
+function renderCadastro(res,situacao={}){
+	res.render('cadastro',situacao);
 }
 
 function checkEmail(email){

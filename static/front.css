@@ -1064,3 +1064,10 @@ header
 	border: 2px solid red;
 	border-radius: 3px;
 }
+.sucesso
+{
+	background-color: #0a4b0a;
+	color: #d7dadc;
+	border: 2px solid green;
+	border-radius: 3px;
+}
