@@ -15,7 +15,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({extendend: false}));
 
 app.get('/',(req,res) => {
-	let q = req.query.q ? {title:req.query.q} : {};
+	let q = req.query.q ? {title:new RegExp(req.query.q,'i')} : {};
 	postDAO.find(query = q).then((found) => {
 		let postlist = found.length > 0 ? found : [{title:'Nenhum Post', content:'Não tem nenhum post cadastrado, foi mal :/'}];
 		let session_user = (req.cookies && req.cookies.login) ? req.cookies.login : false; 
