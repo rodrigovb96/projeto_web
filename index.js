@@ -4,7 +4,9 @@ var express = require('express'),
 	userDAO = require('./model/user'),
 	app = express(),
 	cookieParser = require('cookie-parser'),
-	postDAO = require('./model/posts');
+	postDAO = require('./model/posts'),
+	multer = require('multer'),
+	upload = multer({dest:path.join(__dirname,'static/tempFolder')});
 
 app.set('views',path.join(__dirname,'view'));
 app.set('view engine','hbs');
@@ -53,11 +55,13 @@ app.get('/cadastro',(req,res) => {
 	renderCadastro(res);
 });
 
-app.post('/postar',(req,res) => {
+app.post('/postar',upload.single('post_image'),(req,res) => {
 	let titulo = req.body.post_titulo;
 	let content = req.body.post_content;
 	let user = req.cookies && req.cookies.login ? req.cookies.login : false;
 
+	let f = req.file.path;
+	if(f){console.log(f);}
 	if(user){
 		if(titulo && content) {
 			let post = new postDAO({title:titulo,content:content,username:user});
