@@ -83,13 +83,14 @@ app.post('/register',(req,res) => {
 	let username = req.body.username;	
 	let email = req.body.email;	
 	let password = req.body.password;	
+	let endereco = req.body.endereco;
 	
 	console.log(`Username: ${username} email: ${email} senha: ${password}`);
 
-	if(username && checkEmail(email) && password){
+	if(username && checkEmail(email) && password && endereco){
 		userDAO.find(query={username:username}, limit=1).then((found) => {
 			if(found.length === 0) {
-				let user = new userDAO({username:username,email:email,password:password});
+				let user = new userDAO({username:username,email:email,password:password,endereco:endereco});
 				user.save().then((response) => {
 					let msg = 'Cadastrado com sucesso!';
 					console.log(msg);
@@ -151,4 +152,4 @@ function checkEmail(email){
 	return regex.test(email);
 }
 
-http.createServer(app).listen(process.env.PORT);
+http.createServer(app).listen(process.env.PORT || 3000);

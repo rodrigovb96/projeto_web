@@ -8,6 +8,7 @@ module.exports = class User extends MongoDocument {
 		this.username = data.username;
 		this.email = data.email;
 		this.password = data.password;
+		this.endereco = data.endereco;
 		this.collection = 'user';
 	}
 
