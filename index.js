@@ -5,13 +5,13 @@ var express = require('express'),
 	app = express(),
 	cookieParser = require('cookie-parser'),
 	postDAO = require('./model/posts'),
-	multer = require('multer'),
-	upload = multer({dest:path.join(__dirname,'static/tempFolder')});
+	multer = require('multer');
 
 app.set('views',path.join(__dirname,'view'));
 app.set('view engine','hbs');
 app.use(express.static(path.join(__dirname,'static')));
 app.use(express.static(path.join(__dirname,'static/images')));
+app.use(express.static(path.join(__dirname,'static/uploadedImages')));
 app.use(cookieParser());
 
 app.use(express.urlencoded({extendend: false}));
@@ -55,16 +55,42 @@ app.get('/cadastro',(req,res) => {
 	renderCadastro(res);
 });
 
+const storage = multer.diskStorage({
+ 
+    destination: (req, file, cb) => {
+ 
+        cb(null, 'static/uploadedImages/')
+ 
+    },
+    filename: (req, file, cb) => {
+        cb(null,`${file.originalname}${path.extname(file.originalname)}`);
+    }
+ 
+});
+
+
+const upload = multer( { storage } );
+
 app.post('/postar',upload.single('post_image'),(req,res) => {
 	let titulo = req.body.post_titulo;
 	let content = req.body.post_content;
 	let user = req.cookies && req.cookies.login ? req.cookies.login : false;
+    let image = req.file;
 
-	let f = req.file.path;
-	if(f){console.log(f);}
+    let desne = image.path.split('/')
+    let image_name = desne[ desne.length - 1]
+
+    if(image)
+    {
+        console.log(image);
+        console.log(image.path);
+
+    }
+
+
 	if(user){
 		if(titulo && content) {
-			let post = new postDAO({title:titulo,content:content,username:user});
+			let post = new postDAO({title:titulo,content:content,username:user,image_path:image_name});
 			post.save().then((response) => {
 				res.redirect('/');
 			});
