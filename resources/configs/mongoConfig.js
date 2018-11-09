@@ -1,5 +1,6 @@
+let uri = process.env.MONGO_CONNECTION_KEY || 5;
 module.exports = {
-	db_uri : 'mongodb://localhost:27017/redditdb',
+	db_uri : uri,
 	db_name : 'redditdb',
 	options:{useNewUrlParser: true}
 }
