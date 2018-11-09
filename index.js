@@ -147,4 +147,4 @@ function checkEmail(email){
 	return regex.test(email);
 }
 
-http.createServer(app).listen(3000);
+http.createServer(app).listen(process.env.PORT);
