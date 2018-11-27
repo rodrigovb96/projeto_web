@@ -16,12 +16,22 @@ app.use(cookieParser());
 
 app.use(express.urlencoded({extendend: false}));
 
+const storage = multer.diskStorage({ 
+    destination: (req, file, cb) => { 
+        cb(null, 'static/uploadedImages/') 
+    },
+    filename: (req, file, cb) => {
+        //cb(null,`${file.originalname}${path.extname(file.originalname)}`);
+        cb(null,`${file.originalname}`);
+    } 
+});
+const upload = multer({storage});
+
 app.get('/',(req,res) => {
 	let q = req.query.q ? {title:new RegExp(req.query.q,'i')} : {};
 
 	getPosts(q).then((postlist) => {
-		
-		let session_user = (req.cookies && req.cookies.login) ? req.cookies.login : false; 
+		let session_user = checkCookies(req); 
 		if (session_user) { 
 			userDAO.find(query={username:session_user}, limit=1).then((found) => {
 				user_found = found[0];
@@ -42,67 +52,8 @@ app.get('/buscar',(req,res) => {
 	res.redirect(`/?q=${req.query.q}`);
 });
 
-app.get('/create_post',(req,res) => {
-	if(req.cookies && req.cookies.login) {
-		res.render('create_post');
-	}
-	else {
-		res.redirect('/login');
-	}
-});
-
 app.get('/cadastro',(req,res) => {
 	renderCadastro(res);
-});
-
-const storage = multer.diskStorage({
- 
-    destination: (req, file, cb) => {
- 
-        cb(null, 'static/uploadedImages/')
- 
-    },
-    filename: (req, file, cb) => {
-        cb(null,`${file.originalname}${path.extname(file.originalname)}`);
-    }
- 
-});
-
-
-const upload = multer( { storage } );
-
-app.post('/postar',upload.single('post_image'),(req,res) => {
-	let titulo = req.body.post_titulo;
-	let content = req.body.post_content;
-	let user = req.cookies && req.cookies.login ? req.cookies.login : false;
-    let image = req.file;
-
-    let desne = image.path.split('/')
-    let image_name = desne[ desne.length - 1]
-
-    if(image)
-    {
-        console.log(image);
-        console.log(image.path);
-
-    }
-
-
-	if(user){
-		if(titulo && content) {
-			let post = new postDAO({title:titulo,content:content,username:user,image_path:image_name});
-			post.save().then((response) => {
-				res.redirect('/');
-			});
-		}
-		else {
-			let msg = 'Preencha todos os campos!';
-			res.render('create_post',{falha:msg});
-		}
-	}
-	else {
-		res.redirect('/login');
-	}
 });
 
 app.post('/register',(req,res) => {
@@ -143,7 +94,6 @@ app.post('/auth',(req,res) => {
 		userDAO.find(query={username:username}, limit=1).then((found) => {
 			if(found.length > 0) {
 				if(found[0].password === password) {
-					//req.session.login = username;
 					res.cookie('login',username);
 					res.redirect('/');
 				}
@@ -165,6 +115,53 @@ app.post('/auth',(req,res) => {
 
 });
 
+app.get('/get_posts',(req,res) => {
+	let q = req.query.q ? {title:new RegExp(req.query.q,'i')} : {};
+	res.send(JSON.stringify(getPosts(q)));
+});
+
+app.get('/create_post',(req,res) => {
+	if(checkCookies(req)) {
+		res.render('create_post');
+	}
+	else {
+		res.redirect('/login');
+	}
+});
+
+app.post('/postar',upload.single('post_image'),(req,res) => {
+	let titulo = req.body.post_titulo;
+	let content = req.body.post_content;
+	let user = checkCookies(req);
+    let image = req.file;
+
+    let splitted_path = image.path.split('/')
+    let image_name = splitted_path[ splitted_path.length - 1]
+
+    if(image)
+    {
+        console.log(image);
+        console.log(image.path);
+    }
+
+
+	if(user){
+		if(titulo && content) {
+			let post = new postDAO({title:titulo,content:content,username:user,image_path:image_name,upvoters:[{username:user}],downvoters:[]});
+			post.save().then((response) => {
+				res.redirect('/');
+			});
+		}
+		else {
+			let msg = 'Preencha todos os campos!';
+			res.render('create_post',{falha:msg});
+		}
+	}
+	else {
+		res.redirect('/login');
+	}
+});
+
 function renderLogin(res, mensagem = ''){
 	res.render('login',{falha:mensagem});
 }
@@ -183,10 +180,24 @@ function getPosts(q){
 		postDAO.find(query = q).then((found) => {
 			let postlist = found.length > 0 ? found : [{title:'Nenhum Post', content:'Não tem nenhum post cadastrado, foi mal :/'}];
 
+			postlist = postlist.map((post) => {
+				post.score = 0;
+				upvoters = post.upvoters || [];
+				downvoters = post.downvoters || [];
+				post.score = upvoters.length - downvoters.length;
+				return post;
+			});
+			
+			postlist = postlist.sort((a,b) => {return b.score - a.score});
+
 			resolve(postlist);
-		});
+		}).catch((err) => {reject(err)});
 	});
 	return listPromise;
+}
+
+function checkCookies(req){
+	return (req.cookies && req.cookies.login) ? req.cookies.login : false;
 }
 
 http.createServer(app).listen(process.env.PORT || 3000);
