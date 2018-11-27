@@ -625,7 +625,7 @@ header
     border-radius: 3px;
     border: 1px solid #343536;
     margin-bottom: 10px;
-    max-height: 500px;
+    /*max-height: 500px;*/
     background-color: #1a1a1b;
 	overflow: auto;
 	width: 99%;
@@ -719,7 +719,7 @@ header
 	float:left;
 	max-width: inherit;
 	width: inherit;
-	max-height: 392px;
+	/*max-height: 392px;*/
 }
 .post_content>*
 {

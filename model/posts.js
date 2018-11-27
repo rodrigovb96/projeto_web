@@ -10,6 +10,8 @@ module.exports = class Posts extends MongoDocument {
 		this.username = data.username;
 		this.collection = 'posts';
         this.image_path = data.image_path;
+		this.upvoters = data.upvoters || [];
+		this.downvoters = data.downvoters || [];
 	}
 
 	static find(query = {}, limit = 0,sort = {title:1}) {
