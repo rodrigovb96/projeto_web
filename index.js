@@ -117,7 +117,9 @@ app.post('/auth',(req,res) => {
 
 app.get('/get_posts',(req,res) => {
 	let q = req.query.q ? {title:new RegExp(req.query.q,'i')} : {};
-	res.send(JSON.stringify(getPosts(q)));
+
+    res.status = 200;
+	res.json(getPosts(q));
 });
 
 app.get('/create_post',(req,res) => {
