@@ -117,72 +117,6 @@
 			</div>
 			<div class="main_content">
 				<div class = "post_list"> 
-					{{#each post_list}}
-						<div class="post">
-							<div class="post_details">
-								<div class="vote_region">
-
-									<div class="icon">
-										<span class="icon-upvote"></span>
-									</div>
-
-									<div class="counter_post">{{score}}</div>
-
-									<div class="icon">
-										<span class="icon-downvote"></span>
-									</div>
-								</div>
-							</div>
-							<div class="post_child">
-								<div class="inner_post">
-									<div class="post_header">
-										<div class="post_info">
-											<div class="img_sub_post">
-												<img src="https://styles.redditmedia.com/t5_2qh9i/styles/communityIcon_j68bk74k14o01.png" alt="imagem_rBrasil" />
-											</div>
-											<div class="sub_and_details">
-												<span class="sub_name">r/brasil</span>
-												<span class="post_time">Posted by {{username}}</span>
-											</div>
-										</div>
-										<div class="post_name">
-											<span>{{title}}</span>	
-										</div>
-									</div>
-									<div class="post_content">
-										<span class="post_text">{{content}}</span>
-										<img class="content_img" src="{{image_path}}" alt="{{title}}" />
-									</div>
-								</div>
-								<div class="comments_and_stuff">
-									<div class="cbar_opt comments">
-										<div>
-											<span class="c_icon"></span>
-											<div>123 Comments</div>
-										</div>
-									</div>
-									<div class="cbar_opt share">
-										<div>
-											<span class="s_icon"></span>
-											<div>Share</div>
-										</div>
-									</div>
-									<div class="cbar_opt save">
-										<div>
-											<span class="save_icon"></span>
-											<div>Save</div>
-										</div>
-									</div>
-									<div class="cbar_opt hidden_menu">
-										<div>
-											<span class="m_icon"></span>
-										</div>
-										
-									</div>
-								</div>
-							</div>
-						</div>
-					{{/each}}
 				</div>
 				<div class = "side_bar">
                     <div class="home_bar">
@@ -262,7 +196,100 @@
                 </div>
 			</div>
         </div>
+		<script id="post_template" type="text/x-handlebars-template" charset="utf-8">
+			{{#each post_list}}
+				<div class="post">
+					<div class="post_details">
+						<div class="vote_region">
 
+							<div class="icon">
+								<span class="icon-upvote"></span>
+							</div>
+
+							<div class="counter_post">{{score}}</div>
+
+							<div class="icon">
+								<span class="icon-downvote"></span>
+							</div>
+						</div>
+					</div>
+					<div class="post_child">
+						<div class="inner_post">
+							<div class="post_header">
+								<div class="post_info">
+									<div class="img_sub_post">
+										<img src="https://styles.redditmedia.com/t5_2qh9i/styles/communityIcon_j68bk74k14o01.png" alt="imagem_rBrasil" />
+									</div>
+									<div class="sub_and_details">
+										<span class="sub_name">r/brasil</span>
+										<span class="post_time">Posted by {{username}}</span>
+									</div>
+								</div>
+								<div class="post_name">
+									<span>{{title}}</span>	
+								</div>
+							</div>
+							<div class="post_content">
+								<span class="post_text">{{content}}</span>
+								<img class="content_img" src="{{image_path}}" alt="{{title}}" />
+							</div>
+						</div>
+						<div class="comments_and_stuff">
+							<div class="cbar_opt comments">
+								<div>
+									<span class="c_icon"></span>
+									<div>123 Comments</div>
+								</div>
+							</div>
+							<div class="cbar_opt share">
+								<div>
+									<span class="s_icon"></span>
+									<div>Share</div>
+								</div>
+							</div>
+							<div class="cbar_opt save">
+								<div>
+									<span class="save_icon"></span>
+									<div>Save</div>
+								</div>
+							</div>
+							<div class="cbar_opt hidden_menu">
+								<div>
+									<span class="m_icon"></span>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			{{/each}}
+		</script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.js"charset="utf-8">
+			
+		</script>
+		<script charset="utf-8">
+			let generatePosts = () => {
+				console.log(new Date().toString());
+				let xmlhttp = new XMLHttpRequest();
+				xmlhttp.open("GET","get_posts",true);
+				xmlhttp.onreadystatechange = function () {
+					if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+						let response = xmlhttp.responseText;
+						console.log(response);
+						let data = JSON.parse(response);
+						let template = document.querySelector("#post_template").innerHTML;
+						let compiledTemplate = Handlebars.compile(template);
+						let result = compiledTemplate(data);
+						let post_list = document.querySelector(".post_list");
+
+						post_list.innerHTML = result;
+					}
+				}
+				xmlhttp.send();
+			};
+			generatePosts();
+			setInterval(generatePosts,6000);
+		</script>
 	</body>
 	
 </html>
