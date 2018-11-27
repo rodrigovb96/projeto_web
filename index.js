@@ -18,8 +18,9 @@ app.use(express.urlencoded({extendend: false}));
 
 app.get('/',(req,res) => {
 	let q = req.query.q ? {title:new RegExp(req.query.q,'i')} : {};
-	postDAO.find(query = q).then((found) => {
-		let postlist = found.length > 0 ? found : [{title:'Nenhum Post', content:'Não tem nenhum post cadastrado, foi mal :/'}];
+
+	getPosts(q).then((postlist) => {
+		
 		let session_user = (req.cookies && req.cookies.login) ? req.cookies.login : false; 
 		if (session_user) { 
 			userDAO.find(query={username:session_user}, limit=1).then((found) => {
@@ -30,7 +31,6 @@ app.get('/',(req,res) => {
 		else {
 			res.render('index',{post_list:postlist});
 		}
-		
 	});
 });
 
@@ -176,6 +176,17 @@ function renderCadastro(res,situacao={}){
 function checkEmail(email){
 	let regex = new RegExp('[\\w.]+@[\\w]+\.[\\w]{3}','gi');
 	return regex.test(email);
+}
+
+function getPosts(q){
+	let listPromise = new Promise((resolve,reject) => {
+		postDAO.find(query = q).then((found) => {
+			let postlist = found.length > 0 ? found : [{title:'Nenhum Post', content:'Não tem nenhum post cadastrado, foi mal :/'}];
+
+			resolve(postlist);
+		});
+	});
+	return listPromise;
 }
 
 http.createServer(app).listen(process.env.PORT || 3000);
