@@ -123,6 +123,52 @@ app.get('/get_posts',(req,res) => {
 	});
 });
 
+app.put('/upvote_post',(req,res) => {
+	let post_id = req.body.post_id;
+	postDAO.find(query = {_id:post_id}, limit = 1).then((posts) => {
+		let post = posts[0];
+		let user = checkCookies(req);
+		if (user) {
+			let upvoter = {username:user};
+			if(post.upvoters.includes(upvoter)){
+				post.upvoters.splice(indexOf(upvoter));
+			}
+			else if(post.downvoters.includes(upvoter)){
+				post.downvoters.splice(indexOf(upvoter));
+				post.upvoters.unshift(upvoter);
+			}
+			else {
+				post.upvoters.unshift(upvoter);
+			}
+			res.status = 200;
+			res.send();
+		}
+	});
+});
+
+app.put('/downvote_post',(req,res) => {
+	let post_id = req.body.post_id;
+	postDAO.find(query = {_id:post_id}, limit = 1).then((posts) => {
+		let post = posts[0];
+		let user = checkCookies(req);
+		if (user) {
+			let downvoter = {username:user};
+			if(post.downvoters.includes(downvoter)){
+				post.downvoters.splice(indexOf(downvoter));
+			}
+			else if(post.upvoters.includes(downvoter)){
+				post.upvoters.splice(indexOf(downvoter));
+				post.downvoters.unshift(downvoter);
+			}
+			else {
+				post.downvoters.unshift(downvoter);
+			}
+			res.status = 200;
+			res.send();
+		}
+	});
+});
+
 app.get('/create_post',(req,res) => {
 	if(checkCookies(req)) {
 		res.render('create_post');
