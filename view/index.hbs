@@ -25,10 +25,12 @@
 			</div>
 			<div class="search">
 				<!--TODO TEM QUE VIRAR LINK-->
-				<form class="search_form" action="./buscar" method="get">
-					<input src="lupa.svg" class="search_icon" type="image" />
-					<input class="search_box" type="text" onfocus="this.value=''" name="q" id="reddit_search" value="Search Reddit"/>
-				</form>
+                <form class="search_form" action="./buscar" method="get">
+                    <input src="lupa.svg" class="search_icon" type="image" />
+                    <input class="search_box" type="text" onfocus="this.value=''" name="q" id="reddit_search"
+                    value="Search Reddit" autocomplete="off" />
+                </form>
+                    
 			</div>
 			<div class="header_content icons_container">
 				<div class="header_content feed_type">
@@ -288,6 +290,9 @@
 			generatePosts();
 			setInterval(generatePosts,60000);
 		</script>
+
+        <script type="text/javascript" charset="utf-8" src="live_search.js">
+        </script>
 	</body>
 	
 </html>

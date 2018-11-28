@@ -120,6 +120,22 @@ header
 	font-size: 14px;
 	float:left;
 }
+
+.live_search_list
+{
+    margin-top: 30px;
+}
+
+.live_search
+{
+	background-color: #272729;
+	height: inherit;
+	width: inherit;
+	border: 3px solid #343536;
+	color: #818384;
+	font-size: 14px;
+}
+
 .input_box
 {
 	background-color: inherit;
