@@ -13,25 +13,25 @@
 					<img class="login_Name" src="reddit_name.svg" alt="name"/>
 				</div>
 				<div class="form_container_cadastro">
-					<form action="./postar" method="post" encType="multipart/form-data">
-                        
-                        <div class= "block_label_input">
-                            <label class="form_label" for="titulo">Título do Post</label>
-                            <input type="text" name="post_titulo" class="input_box user_field" value="" />
-                        </div>
-                        
-                        <div class="block_label_input">
-                            <label class="form_label" for="post_content">Conteúdo</label>
-                            <input type="text" name="post_content" class="input_box" value="" />
-                        </div>
+                        <form id="form_post" action="" method="post" encType="multipart/form-data">
+                            <div class= "block_label_input">
+                                <label class="form_label" for="titulo">Título do Post</label>
+                                <input type="text" name="post_titulo" class="input_box user_field" value="" />
+                            </div>
+                            
+                            <div class="block_label_input">
+                                <label class="form_label" for="post_content">Conteúdo</label>
+                                <input type="text" name="post_content" class="input_box" value="" />
+                            </div>
 
-                        <div class="block_label_input">
-                            <label class="form_label" for="">Imagem</label>
-                            <input type="file" name="post_image" class="input_box pass_field" accept="image/*" />
-                        </div>
-			  
-                        <button class="sing_up_button login" type="submit">Postar</button>
-					</form>
+                            <div class="block_label_input">
+                                <label class="form_label" for="">Imagem</label>
+                                <input id="post_image" type="file" name="post_image" class="input_box pass_field" accept="image/*" />
+                            </div>
+                  
+                            <progress id="progress" value=0></progress>
+                            <button id="postBtn" class="sing_up_button login" type="submit">Postar</button>
+                        </form>
 				</div>
 				{{#if falha}}
 					<div class="aviso erro">
@@ -40,5 +40,48 @@
 				{{/if}}
 			</div>
 		</div>
+
+        <script charset="utf-8">
+            var postBtn = document.getElementById("postBtn"),
+                progressBar = document.getElementById("progress"),
+                form = document.getElementById("form_post");
+
+            let uploadPost =  (data) =>
+            {
+                let xhr= new XMLHttpRequest();
+
+                xhr.open("POST","postar",true);
+
+                 if (xhr.upload) {
+                    xhr.upload.onprogress = function(e) {
+                      if (e.lengthComputable) {
+                        progressBar.max = e.total;
+                        progressBar.value = e.loaded;
+                      }
+                    }
+                    xhr.upload.onloadstart = function(e) {
+                      progressBar.value = 0;
+                    }
+                    xhr.upload.onloadend = function(e) {
+                      progressBar.value = e.loaded;
+                      postBtn.disabled = true;
+                      postBtn.innerHTML = 'Postado';
+                    }
+                  }
+                  xhr.send(data);
+            }
+
+
+            postBtn.addEventListener("click", (e) =>
+            {
+
+                var data = new FormData( form );
+                this.disable = true;
+                this.innerHTML = "Postando...";
+
+                uploadPost(data);
+            });
+                
+        </script>
 	</body>
 </html>
