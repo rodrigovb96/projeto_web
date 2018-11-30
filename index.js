@@ -256,7 +256,8 @@ app.post('/postar',upload.single('post_image'),(req,res) => {
 		if(titulo && content) {
 			let post = new postDAO({title:titulo,content:content,username:user,image_path:image_name,upvoters:[{username:user}],downvoters:[]});
 			post.save().then((response) => {
-				res.redirect('/');
+                res.status = 200;
+                res.redirect('/');
 			});
 		}
 		else {

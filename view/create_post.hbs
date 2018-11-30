@@ -13,7 +13,7 @@
 					<img class="login_Name" src="reddit_name.svg" alt="name"/>
 				</div>
 				<div class="form_container_cadastro">
-                        <form id="form_post" action="" method="post" encType="multipart/form-data">
+                        <form id="form_post" action="./postar" method="post" encType="multipart/form-data">
                             <div class= "block_label_input">
                                 <label class="form_label" for="titulo">Título do Post</label>
                                 <input type="text" name="post_titulo" class="input_box user_field" value="" />
@@ -51,24 +51,27 @@
                 let xhr= new XMLHttpRequest();
 
                 xhr.open("POST","postar",true);
+                xhr.onreadystatechange = () =>
+                {
+                    if( xhr.status === 200 && xhr.readyState === 4 )
+                    {
+                        alert("POSTADO!");
+                        console.log(progressBar.value);
+                        //window.location.href = '/';
+                    }
+                };
 
-                 if (xhr.upload) {
-                    xhr.upload.onprogress = function(e) {
-                      if (e.lengthComputable) {
-                        progressBar.max = e.total;
-                        progressBar.value = e.loaded;
-                      }
-                    }
-                    xhr.upload.onloadstart = function(e) {
-                      progressBar.value = 0;
-                    }
-                    xhr.upload.onloadend = function(e) {
-                      progressBar.value = e.loaded;
-                      postBtn.disabled = true;
-                      postBtn.innerHTML = 'Postado';
-                    }
-                  }
-                  xhr.send(data);
+                xhr.addEventListener("progress", (event) =>
+                {
+                    var percent = ( event.loaded / event.total ) * 100 ;
+
+                    progressBar.value = percent;
+                });
+
+
+                xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                xhr.send(data);
+
             }
 
 
