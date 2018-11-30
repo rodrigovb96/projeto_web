@@ -1,6 +1,8 @@
 let input = document.querySelector(".search_box");
 let parent_ = document.querySelector(".search");
 
+const null_post = "Nenhum Post";
+
 document.querySelector(".search_box")
             .addEventListener("keyup", function() { 
 
@@ -29,25 +31,28 @@ document.querySelector(".search_box")
 
                             parent_.appendChild(list);
                             
-                            for( var i = 0; i < posts.length; i++ )
+                            if( posts[0].title != null_post )
                             {
-                                var div = document.createElement("div"), 
-                                    content =  posts[i].title;
-
-                                console.log(content);
-
-
-
-                                div.className = "live_search";
-                                div.innerHTML = content;
-
-                                div.onclick = function()
+                                for( var i = 0; i < posts.length; i++ )
                                 {
-                                    window.location.href += "buscar?q="+div.innerHTML;
-                                };
+                                    let div = document.createElement("div"), 
+                                        content =  posts[i].title.trim();
+
+                                    console.log(content);
+
+                                    div.className = "live_search";
+                                    div.innerHTML = content;
+
+                                    console.log(window.location.href);
+                                    
+                                    div.onclick = function()
+                                    {
+                                        window.location.assign("/buscar?q="+div.innerHTML);
+                                    };
 
 
-                                list.appendChild(div);
+                                    list.appendChild(div);
+                                }
                             }
 
                         }
