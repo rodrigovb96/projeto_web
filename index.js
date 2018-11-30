@@ -5,7 +5,8 @@ var express = require('express'),
 	app = express(),
 	cookieParser = require('cookie-parser'),
 	postDAO = require('./model/posts'),
-	multer = require('multer');
+	multer = require('multer'),
+	mongo = require('mongodb');
 
 app.set('views',path.join(__dirname,'view'));
 app.set('view engine','hbs');
@@ -119,53 +120,109 @@ app.get('/get_posts',(req,res) => {
 	let q = req.query.q ? {title:new RegExp(req.query.q,'i')} : {};
 
 	getPosts(q).then((postlist) => {
+		let user = checkCookies(req);
+		postlist = postlist.map((post) => {
+			if(user) {
+				if(post.upvoters.includes({username:user})) {
+					post.upvoters = [{username:user}];
+					post.downvoters = null;
+				}
+				else if(post.downvoters.includes({username:user})) {
+					post.downvoters = [{username:user}];
+					post.upvoters = null;
+				}
+				else {
+					post.downvoters = null;
+					post.upvoters = null;
+				}
+			}
+			else {
+				post.downvoters = null;
+				post.upvoters = null;
+			}
+			return post;
+		});
 		res.status = 200;
 		res.json(postlist);
 	});
 });
 
-app.put('/upvote_post',(req,res) => {
+app.post('/upvote_post',(req,res) => {
 	let post_id = req.body.post_id;
-	postDAO.find(query = {_id:post_id}, limit = 1).then((posts) => {
+	console.log(`ObjectId("${post_id}")`);
+	postDAO.find(query = {_id:new mongo.ObjectID(post_id)}, limit = 1).then((posts) => {
+		if(posts.length < 1) {
+			res.status = 404;
+			res.send();
+		}
+		console.log(posts);
 		let post = posts[0];
 		let user = checkCookies(req);
 		if (user) {
 			let upvoter = {username:user};
-			if(post.upvoters.includes(upvoter)){
-				post.upvoters.splice(indexOf(upvoter));
+			let index = 0;
+
+			let already_upvoted = post.upvoters.find((v,i) => {
+				index = i;
+				return v.username === upvoter.username;
+			});
+
+			let already_downvoted = post.downvoters.find((v,i) => {
+				index = i;
+				return v.username === upvoter.username;
+			});
+
+			if(already_upvoted){
+				post.upvoters.splice(index);
 			}
-			else if(post.downvoters.includes(upvoter)){
-				post.downvoters.splice(indexOf(upvoter));
+			else if(already_downvoted){
+				post.downvoters.splice(index);
 				post.upvoters.unshift(upvoter);
 			}
 			else {
 				post.upvoters.unshift(upvoter);
 			}
-			res.status = 200;
-			res.send();
+			post.save().then((response) => {
+				res.status = 200;
+				res.send();
+			}).catch((err) => {console.log(err);});
 		}
-	});
+	}).catch((err) => {console.log(err);});
 });
 
-app.put('/downvote_post',(req,res) => {
+app.post('/downvote_post',(req,res) => {
 	let post_id = req.body.post_id;
-	postDAO.find(query = {_id:post_id}, limit = 1).then((posts) => {
+	postDAO.find(query = {_id:new mongo.ObjectID(post_id)}, limit = 1).then((posts) => {
 		let post = posts[0];
 		let user = checkCookies(req);
 		if (user) {
 			let downvoter = {username:user};
-			if(post.downvoters.includes(downvoter)){
-				post.downvoters.splice(indexOf(downvoter));
+			let index = 0;
+
+			let already_upvoted = post.upvoters.find((v,i) => {
+				index = i;
+				return v.username === downvoter.username;
+			});
+
+			let already_downvoted = post.downvoters.find((v,i) => {
+				index = i;
+				return v.username === downvoter.username;
+			});
+
+			if(already_downvoted){
+				post.downvoters.splice(index);
 			}
-			else if(post.upvoters.includes(downvoter)){
-				post.upvoters.splice(indexOf(downvoter));
+			else if(already_upvoted){
+				post.upvoters.splice(index);
 				post.downvoters.unshift(downvoter);
 			}
 			else {
 				post.downvoters.unshift(downvoter);
 			}
-			res.status = 200;
-			res.send();
+			post.save().then((response) => {
+				res.status = 200;
+				res.send();
+			}).catch((err) => {console.log(err);});
 		}
 	});
 });

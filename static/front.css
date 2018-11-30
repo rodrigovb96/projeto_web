@@ -1090,3 +1090,11 @@ header
 	border: 2px solid green;
 	border-radius: 3px;
 }
+.up_active
+{
+	color: #ff4500;
+}
+.down_active
+{
+	color: #7193ff;
+}
