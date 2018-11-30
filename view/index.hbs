@@ -266,9 +266,8 @@
 				</div>
 			{{/each}}
 		</script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.js"charset="utf-8">
-			
-		</script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.js"charset="utf-8"></script>
+
 		<script charset="utf-8">
 			let generatePosts = () => {
 				console.log(new Date().toString());
@@ -277,7 +276,6 @@
 				xmlhttp.onreadystatechange = function () {
 					if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
 						let response = xmlhttp.responseText;
-						console.log(response);
 						let data = JSON.parse(response);
 						let template = document.querySelector("#post_template").innerHTML;
 						let compiledTemplate = Handlebars.compile(template);
@@ -290,7 +288,7 @@
 				xmlhttp.send();
 			};
 			generatePosts();
-			setInterval(generatePosts,6000);
+			setInterval(generatePosts,60000);
 		</script>
 
         <script type="text/javascript" charset="utf-8" src="live_search.js">
