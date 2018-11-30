@@ -122,6 +122,8 @@ app.get('/get_posts',(req,res) => {
 	getPosts(q).then((postlist) => {
 		let user = checkCookies(req);
 		postlist = postlist.map((post) => {
+			post.upvoters = post.upvoters ? post.upvoters : [];
+			post.downvoters = post.downvoters ? post.downvoters : [];
 			if(user) {
 				if(post.upvoters.includes({username:user})) {
 					post.upvoters = [{username:user}];
@@ -257,7 +259,7 @@ app.post('/postar',upload.single('post_image'),(req,res) => {
 			let post = new postDAO({title:titulo,content:content,username:user,image_path:image_name,upvoters:[{username:user}],downvoters:[]});
 			post.save().then((response) => {
                 res.status = 200;
-                res.redirect('/');
+                res.send();
 			});
 		}
 		else {

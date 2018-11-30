@@ -30,8 +30,9 @@
                             </div>
                   
                             <progress id="progress" value=0></progress>
-                            <button id="postBtn" class="sing_up_button login" type="submit">Postar</button>
+							<!--<button id="postBtn" class="sing_up_button login" type="submit">Postar</button>-->
                         </form>
+						<button id="postBtn" class="sing_up_button login" type="submit">Postar</button>
 				</div>
 				{{#if falha}}
 					<div class="aviso erro">
@@ -43,33 +44,32 @@
 
         <script charset="utf-8">
             var postBtn = document.getElementById("postBtn"),
-                progressBar = document.getElementById("progress"),
-                form = document.getElementById("form_post");
+                progressBar = document.getElementById("progress");
+
 
             let uploadPost =  (data) =>
             {
-                let xhr= new XMLHttpRequest();
+                let xhr = new XMLHttpRequest();
 
                 xhr.open("POST","postar",true);
                 xhr.onreadystatechange = () =>
                 {
-                    if( xhr.status === 200 && xhr.readyState === 4 )
+					console.log(xhr.readyState);
+                    if( xhr.readyState === 4 && xhr.status === 200 )
                     {
-                        alert("POSTADO!");
                         console.log(progressBar.value);
-                        //window.location.href = '/';
+                        window.location.href = '/';
                     }
                 };
 
-                xhr.addEventListener("progress", (event) =>
+                xhr.upload.onprogress = (event) =>
                 {
-                    var percent = ( event.loaded / event.total ) * 100 ;
+					var percent = ( event.loaded / event.total ) * 100 ;
+					console.log(percent);
+					progressBar.value = percent;
+                };
 
-                    progressBar.value = percent;
-                });
 
-
-                xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                 xhr.send(data);
 
             }
@@ -77,8 +77,8 @@
 
             postBtn.addEventListener("click", (e) =>
             {
-
-                var data = new FormData( form );
+                var form = document.getElementById("form_post")
+				var data = new FormData( form );
                 this.disable = true;
                 this.innerHTML = "Postando...";
 
