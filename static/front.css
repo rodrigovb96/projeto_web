@@ -124,16 +124,19 @@ header
 .live_search_list
 {
     margin-top: 30px;
+    text-align: left;
 }
 
 .live_search
 {
-	background-color: #272729;
+	background-color: white;
 	height: inherit;
 	width: inherit;
 	border: 3px solid #343536;
-	color: #818384;
+    font-color: black;
+    font-weight: bold;
 	font-size: 14px;
+    text-align: left;
 }
 
 .input_box
