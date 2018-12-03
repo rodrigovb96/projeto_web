@@ -122,14 +122,23 @@ app.get('/get_posts',(req,res) => {
 	getPosts(q).then((postlist) => {
 		let user = checkCookies(req);
 		postlist = postlist.map((post) => {
-			post.upvoters = post.upvoters ? post.upvoters : [];
-			post.downvoters = post.downvoters ? post.downvoters : [];
 			if(user) {
-				if(post.upvoters.includes({username:user})) {
+				//post.upvoters = post.upvoters ? post.upvoters : [];
+				//post.downvoters = post.downvoters ? post.downvoters : [];
+				let u = {username:user};
+				let already_upvoted = post.upvoters.find((v,i) => {
+					return v.username === u.username;
+				});
+
+				let already_downvoted = post.downvoters.find((v,i) => {
+					return v.username === u.username;
+				});
+
+				if(already_upvoted) {
 					post.upvoters = [{username:user}];
 					post.downvoters = null;
 				}
-				else if(post.downvoters.includes({username:user})) {
+				else if(already_downvoted) {
 					post.downvoters = [{username:user}];
 					post.upvoters = null;
 				}
@@ -145,6 +154,7 @@ app.get('/get_posts',(req,res) => {
 			return post;
 		});
 		res.status = 200;
+		console.log(postlist[0]);
 		res.json(postlist);
 	});
 });
@@ -186,7 +196,7 @@ app.post('/upvote_post',(req,res) => {
 			}
 			post.save().then((response) => {
 				res.status = 200;
-				res.send();
+				res.end();
 			}).catch((err) => {console.log(err);});
 		}
 	}).catch((err) => {console.log(err);});
