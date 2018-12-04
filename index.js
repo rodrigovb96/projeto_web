@@ -191,10 +191,10 @@ app.post('/upvote_post',(req,res) => {
 			});
 
 			if(already_upvoted){
-				post.upvoters.splice(index);
+				post.upvoters.splice(index,1);
 			}
 			else if(already_downvoted){
-				post.downvoters.splice(index);
+				post.downvoters.splice(index,1);
 				post.upvoters.unshift(upvoter);
 			}
 			else {
@@ -228,10 +228,10 @@ app.post('/downvote_post',(req,res) => {
 			});
 
 			if(already_downvoted){
-				post.downvoters.splice(index);
+				post.downvoters.splice(index,1);
 			}
 			else if(already_upvoted){
-				post.upvoters.splice(index);
+				post.upvoters.splice(index,1);
 				post.downvoters.unshift(downvoter);
 			}
 			else {
