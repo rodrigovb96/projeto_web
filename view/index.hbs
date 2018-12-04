@@ -198,7 +198,9 @@
                 </div>
 			</div>
         </div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.js"charset="utf-8"></script>
 		<script id="post_template" type="text/x-handlebars-template" charset="utf-8">
+			{{{{raw-block}}}}
 			{{#each post_list}}
 				<div class="post">
 					<div class="post_details">
@@ -271,34 +273,15 @@
 						</div>
 					</div>
 				</div>
-			{{/each}}
+				{{/each}}
+				{{{{/raw-block}}}}
 		</script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.js"charset="utf-8"></script>
 
 		<script charset="utf-8">
-			function sleep(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
-    }
-  }
-}
-
 			function renderPosts(data) {
-
-
-				let template = document.querySelector("#post_template").innerHTML;
+				template = document.querySelector("#post_template").innerHTML;
 				let compiledTemplate = Handlebars.compile(template);
-				let result = compiledTemplate(data);
-				posts = document.getElementsByClassName("post");
-
-
-				for(let i = 0; i < posts.length;i++)
-				{
-					document.getElementById("post_list").removeChild(posts[i]);
-					console.log(`post ${i} apagado`);
-				}
+				let result = compiledTemplate({post_list:data});
 				document.getElementById("post_list").innerHTML = result;
 			}
 
@@ -310,7 +293,7 @@
 					if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
 						let response = xmlhttp.responseText;
 						let data = JSON.parse(response);
-						renderPosts(data.sort((a,b) =>{return b.score - a.score}));
+						renderPosts(data);
 					}
 				}
 				xmlhttp.send();

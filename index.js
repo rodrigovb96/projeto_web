@@ -6,13 +6,15 @@ var express = require('express'),
 	cookieParser = require('cookie-parser'),
 	postDAO = require('./model/posts'),
 	multer = require('multer'),
-	mongo = require('mongodb');
+	mongo = require('mongodb'),
+	handlebars = require('hbs');
 
 app.set('views',path.join(__dirname,'view'));
 app.set('view engine','hbs');
 app.use(express.static(path.join(__dirname,'static')));
 app.use(express.static(path.join(__dirname,'static/images')));
 app.use(express.static(path.join(__dirname,'static/uploadedImages')));
+app.use(express.static(path.join(__dirname,'node_modules/handlebars/lib')));
 app.use(cookieParser());
 
 app.use(express.urlencoded({extendend: false}));
@@ -27,6 +29,10 @@ const storage = multer.diskStorage({
     } 
 });
 const upload = multer({storage});
+
+handlebars.registerHelper('raw-block',(options) =>{
+	return options.fn();
+});
 
 app.get('/',(req,res) => {
 	let q = req.query.q ? {title:new RegExp(req.query.q,'i')} : {};
