@@ -203,8 +203,7 @@
 				<div class="post">
 					<div class="post_details">
 						<div class="vote_region">
-
-							<div id={{_id}} onclick="upvote_post(this)" class="icon">
+                            <div  onclick="upvote_post(this, '{{_id}}')" class="icon">
 								{{#if upvoters}}
 									<span class="icon-upvote up_active"></span>
 								{{else}}
@@ -214,7 +213,7 @@
 
 							<div class="counter_post">{{score}}</div>
 
-							<div id={{_id}} onclick="downvote_post(this)" class="icon">
+                            <div onclick="downvote_post(this,'{{_id}}')" class="icon">
 								{{#if downvoters}}
 									<span class="icon-downvote down_active"></span>
 								{{else}}
@@ -285,11 +284,15 @@
     }
   }
 }
+
 			function renderPosts(data) {
+
+
 				let template = document.querySelector("#post_template").innerHTML;
 				let compiledTemplate = Handlebars.compile(template);
 				let result = compiledTemplate(data);
 				posts = document.getElementsByClassName("post");
+
 
 				for(let i = 0; i < posts.length;i++)
 				{
@@ -307,7 +310,6 @@
 					if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
 						let response = xmlhttp.responseText;
 						let data = JSON.parse(response);
-						console.log(data[0]);
 						renderPosts(data.sort((a,b) =>{return b.score - a.score}));
 					}
 				}
@@ -315,8 +317,10 @@
 			}
 
 
-			function upvote_post(element) {
+			function upvote_post(element,id) {
 				let cookie = document.cookie;
+
+                console.log(id);
 				if(cookie){
 					let xmlhttp = new XMLHttpRequest();
 					xmlhttp.open("POST","upvote_post",true);
@@ -326,7 +330,6 @@
 							if(upvote.className.split(" ").includes("up_active")) {
 								upvote.className = "icon-upvote";
 								let scoreElement = element.parentNode.getElementsByClassName("counter_post")[0];
-								console.log(scoreElement);
 								scoreElement.innerHTML = parseInt(scoreElement.innerHTML) - 1;
 							}
 							else {
@@ -337,11 +340,11 @@
 						}
 					}
 					xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-					xmlhttp.send(`post_id=${element.id}`);
+					xmlhttp.send(`post_id=${id}`);
 				}
 			}
 
-			function downvote_post(element) {
+			function downvote_post(element,id) {
 				let cookie = document.cookie;
 				if(cookie){
 					let xmlhttp = new XMLHttpRequest();
@@ -352,7 +355,6 @@
 							if(upvote.className.split(" ").includes("down_active")) {
 								upvote.className = "icon-downvote";
 								let scoreElement = element.parentNode.getElementsByClassName("counter_post")[0];
-								console.log(scoreElement);
 								scoreElement.innerHTML = parseInt(scoreElement.innerHTML) + 1;
 							}
 							else {
@@ -363,7 +365,7 @@
 						}
 					}
 					xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-					xmlhttp.send(`post_id=${element.id}`);
+					xmlhttp.send(`post_id=${id}`);
 				}
 			}
 
