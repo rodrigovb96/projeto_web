@@ -29,10 +29,11 @@
                                 <input id="post_image" type="file" name="post_image" class="input_box pass_field" accept="image/*" />
                             </div>
                   
-                            <progress id="progress" value=0></progress>
 							<!--<button id="postBtn" class="sing_up_button login" type="submit">Postar</button>-->
                         </form>
 						<button id="postBtn" class="sing_up_button login" type="submit">Postar</button>
+
+                        <img id="progress" class="hide" src="loading.svg" alt="loading"/>
 				</div>
 				{{#if falha}}
 					<div class="aviso erro">
@@ -43,9 +44,8 @@
 		</div>
 
         <script charset="utf-8">
-            var postBtn = document.getElementById("postBtn"),
-                progressBar = document.getElementById("progress");
 
+            var postBtn = document.getElementById("postBtn");
 
             let uploadPost =  (data) =>
             {
@@ -57,16 +57,9 @@
 					console.log(xhr.readyState);
                     if( xhr.readyState === 4 && xhr.status === 200 )
                     {
-                        console.log(progressBar.value);
                         window.location.href = '/';
-                    }
-                };
 
-                xhr.upload.onprogress = (event) =>
-                {
-					var percent = ( event.loaded / event.total ) * 100 ;
-					console.log(percent);
-					progressBar.value = percent;
+                    }
                 };
 
 
@@ -77,10 +70,15 @@
 
             postBtn.addEventListener("click", (e) =>
             {
+                let progress = document.getElementById("progress");
                 var form = document.getElementById("form_post")
 				var data = new FormData( form );
                 this.disable = true;
                 this.innerHTML = "Postando...";
+
+                progress.className = "loading"; 
+
+
 
                 uploadPost(data);
             });
